@@ -1,0 +1,10 @@
+# ssh client system-wide configuration file.
+# defaults for users
+# values can be changed
+# in per-user configuration files or on the command line.
+
+
+Host *
+	PasswordAuthentication no
+#   	HostbasedAuthentication no
+    	IdentityFile ~/.ssh/school
