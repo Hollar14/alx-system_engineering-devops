@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bash script that creates an RSA key pair
+# Bash script that creates an RSA key pair with the passphrase betty
 # Number of bit in the key 4096
-# passphrase betty.
+
 ssh-keygen -f school -b 4096 -N betty
