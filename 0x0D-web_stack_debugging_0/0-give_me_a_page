@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Script that initializes the server apache
+# Apache will run on the container and return a page containing 
+# Hello Holberton when querying the root of it
+/etc/init.d/apache2 start
