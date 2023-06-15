@@ -1,0 +1,30 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+User=ubuntu
+Group=ubuntu
+EnvironmentFile=/etc/systemd/system/gunicorn.service.d/override.conf
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/ubuntu/AirBnB_clone_v4/
+ExecStartPre =/bin/sudo mkdir -p /run/AirBnB_clone_v4
+ExecStartPre =/bin/sudo chown -R ubuntu:ubuntu /run/AirBnB_clone_v4
+StandardOutput=append:/tmp/airbnb-access.log
+StandardError=append:/tmp/airbnb-error.log
+ExecStartPre =/bin/tmux new-session -d 'gunicorn --bind 0.0.0.0:5002 api.v1.app:app'
+ExecStartPre =/bin/tmux new-session -d 'gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app'
+ExecStartPre =/bin/tmux new-session -d 'gunicorn --bind 0.0.0.0:5001 web_flask.6-number_odd_or_even:app'
+ExecStartPre =/bin/tmux new-session -d 'gunicorn --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app'
+ExecStart=/usr/bin/env gunicorn web_dynamic.2-hbnb:app -b 0.0.0.0:5003 --pid /run/AirBnB_clone_v4/AirBnB_clone_v4.pid
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
